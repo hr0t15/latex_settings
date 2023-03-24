@@ -1,0 +1,503 @@
+%%% ドキュメントクラスの定義
+% 数式の表示位置のオプション(デフォルトは「右寄せ」)
+%  fleqn : 左寄せ
+%  split : 中央寄せ
+% 用紙サイズのオプション(デフォルトは「a4paper」)
+%  数学書の一般サイズはA5サイズ(148 mm x 210 mm)
+%\documentclass[fleqn, a5paper]{ltjsreport}
+%\documentclass[fleqn]{ltjsreport}
+\documentclass[fleqn, b5paper]{ltjsreport}
+
+%%% フォント設定
+\usepackage{luatexja}
+\usepackage{fontspec} %luatexja-fontspecを読み込む場合入れなくても読み込まれます。
+\usepackage[match]{luatexja-fontspec}
+
+%fontspec
+%欧文用の本文
+%\setmainfont{}
+%サンセリフ
+%\setsansfont{}
+%等幅
+%\setmonofont{}
+%luatexja-fontspec
+%和文用の本文
+%\setmainjfont{}
+%ゴシック
+%\setsansjfont{}
+%\setmonojfontはluatexja-fontspecにmatchオプションを設定すると使えるようになります。
+%matchを設定すると、pLATEX2εの動作に近づき、\textrmなどが和文フォントの設定も変えるようになります。
+%\setmonojfont{}
+
+%%% 数式
+\usepackage[no-math]{luatexja-preset}
+
+\usepackage{footmisc}
+
+% テンプレートを作るときとかに使うダミーテキストを出力
+\usepackage{lipsum}
+
+\usepackage{fancyvrb}
+
+%% 部分的に2段組にしたいときの記述
+\usepackage{multicol}
+
+%%% パッケージの定義
+%% フォント、シンボル
+% AMS
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs} 
+
+\usepackage{bm, bbm}
+%\newcommand{\bm}{\mathbf}
+%\newcommand{\bmm}{\boldsymbol}
+
+% 複数行コメント
+\usepackage{comment}
+
+%% 極めて自由な書式をもつユーザ命令を定義可能にする
+\usepackage{xparse}
+
+%% グラフィック汎用パッケージ
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+%% ハイパーリンク
+% LaTeXでタイプセットしたPDFファイルにHTMLと同様なハイパーリンク機能を加える
+\usepackage[plainpages,unicode]{hyperref}
+% hyperrefパッケージのオプションリスト
+\hypersetup{
+  % しおりを作るかの設定(デフォルトは true (作成する))
+  %bookmarks = true,
+  % しおりに節番号などを付与するかの設定(デフォルトはfalse (付与しない))
+  bookmarksnumbered = false,
+  % しおりのツリーを開くかの設定(デフォルトは false (閉じている))
+  bookmarksopen = true,
+  % アンカーテキスト(リンクテキスト)の色指定 (デフォルトは black )
+  anchorcolor = black,
+  % 参考文献リンクの色指定 (デフォルトは green )
+  citecolor = green,
+  % ローカルファイルリンクの色指定(デフォルトは magenta )
+  filecolor = magenta,
+  % リンクに色をつけるかの設定(デフォルトは false (色をつけない))
+  colorlinks = true,
+  % 作成しているpdfファイル内の内部参照リンクの色(デフォルトはred)
+  linkcolor = blue,
+  % リンクを囲むボックスの色(デフォルトは1 0 0)
+  linkbordercolor = 0 0 0,
+  % 外部参照しているURLの色(デフォルトは magenta )
+  urlcolor = cyan,
+}
+
+% URLリンクの反映
+\usepackage{url}
+
+%% ソースコード埋め込み
+% ソースコードの直接的な埋め込みに対応
+\usepackage{listings}
+
+% listings/jlistingパッケージのオプションリスト
+\lstdefinestyle{default}{
+  %columns=fixed,
+  %basewidth=0.5em,
+  %% Languages and styles
+  % プログラム言語(複数の言語に対応，C,C++も可)
+  %language={言語名前},
+  %% Figure out the appearance
+  % 標準フォント
+  %basicstyle = \ttfamily\scriptsize,
+  basicstyle = \small\ttfamily,
+  % コメント箇所のフォント
+  commentstyle = {\small\ttfamily \color[cmyk]{1,0.4,1,0}},
+  % 表示する文字のスタイル
+  % キーワード、コメント、および文字列以外のスタイルを決定する。
+  % 最後のトークンは、\textbf や \underbar のような1つのパラメータコマンドです。
+  stringstyle = {\small\ttfamily \color[rgb]{0,0,1}},
+  % キーワード(int, ifなど)のフォント
+  keywordstyle = {\small\ttfamily \color[cmyk]{0,1,0,0}},
+  %% Getting all characters right
+  % タブ数の指定
+  tabsize = 4,
+  % タブ文字の表示
+  % 表示させる場合は true , 表示させない場合は false
+  showtabs = false,
+  % ブランク文字の表示
+  % 表示させない場合は 「showspaces = false, showstringspaces = false 」
+  % ブランクにて表示させる場合は 「showspaces = true, showstringspaces = false 」
+  % ブランクを示す記号にて表示させる場合は 「showspaces = true」, showstringspaces = false 」
+  showspaces = false,
+  showstringspaces = true,
+  %% Line numbers
+  % 行番号の位置
+  % 変数は none, left, right の3つ
+  %numbers = left,
+  numbers = none,
+  % 行番号の間隔
+  stepnumber = 1,
+  % 行番号の書体
+  numberstyle = \tiny,
+  % 行番号と本文の間隔。
+  %numbersep = 3pt,
+  %% Margins and line shape
+  %左の空白の大きさ
+  %xrightmargin = 3pt,
+  %右の空白の大きさ
+  %xleftmargin = 3pt,
+  % 行が長くなったときの改行の設定。
+  % trueの場合は改行する。
+  breaklines = true,
+  % breaklines が true のときの自動改行後のインデント量
+  % デフォルトでは20[pt]
+  breakindent = 20pt,
+  %% Frames
+  % フレームの設定
+  % 「none, leftline, topline, bottomline, lines, single, shadowbox のいずれか」
+  % もしくは
+  % 「t(top), r(right), b(bottom), l(left) および
+  % T(二重線のtop), R(二重線のright), B(二重線のbottom), L(二重線のleft) の組み合わせ」
+  % frame=single,
+  % 背景色と透過度
+  % backgroundcolor={\color[gray]{.95}},
+  % 本文からframeまでの間隔（デフォルトは3pt)
+  framesep = 3pt,
+  % 固定列モードとフレキシブル列モードの両方の単一文字ボックスの幅を設定する。
+  % basewidth {0.6em,0.45em}
+  basewidth={0.5em, 0.45em},
+}
+
+\lstdefinestyle{syntax}{
+  frame=Tb,
+  backgroundcolor={\color[gray]{.95}},
+}
+
+\lstdefinestyle{term}{
+  frame=TRBL,
+  backgroundcolor={\color[gray]{.80}},
+}
+
+\lstdefinestyle{R}{
+  language=R,
+  backgroundcolor={\color[gray]{.95}},
+}
+\lstdefinestyle{termR}{
+  language=R,
+  frame=TRBL,
+  backgroundcolor={\color[gray]{.80}},
+}
+\lstdefinestyle{C++}{
+  language=C++,
+}
+
+
+\lstset{escapechar = , style = {default}}
+
+% 引数
+% #1 : ファイル名
+% #2 : スタイルの指定
+% #3 : ラベル
+% #4 : captionの指定
+\newcommand{\includeCode}[4][default]{\lstinputlisting[caption = #4, label = #3, escapechar = , style = #2]{#1}}
+
+\usepackage{subfiles}
+
+%% TikZ
+% 本体の読み込み
+\usepackage{tikz}
+\usetikzlibrary{intersections, calc, patterns, math, arrows, shapes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary {arrows.meta}
+\usetikzlibrary {bending}
+
+%% 外枠定義
+% 外枠記述のパッケージ
+\usepackage{framed}
+\usepackage{fancybox}
+
+% tcolorboxパッケージの使用
+\usepackage[many]{tcolorbox}
+% 凝った内容の枠を作成する場合には，さらに library を読み込む必要があります。
+% raster library と skins library を読み込みたい場合には，以下の通り追加する。
+\tcbuselibrary{raster, skins}
+% ページまたぎに対応したboxにする。
+\tcbuselibrary{breakable}
+% 複数変数の取得を可能にする。
+\tcbuselibrary{xparse, listings, theorems}
+
+% --------------
+% the space reserved between for the ``In'' numbers and the code
+\newlength\inwd
+\setlength\inwd{0.8cm}
+
+\newtcblisting{ipyin}{
+  enlarge left by=\inwd,
+  width=\linewidth-\inwd,
+  enhanced,
+  boxrule=0.pt,
+  colback=gray!5!white,
+  colbacktitle=black!80!white,
+  listing only,
+  breakable,
+  top=0pt,
+  bottom=0pt,
+  overlay={
+    \node[
+      anchor=north east,
+      text width=\inwd,
+      font=\footnotesize\ttfamily\color{blue!50!black},
+      inner ysep=2mm,
+      inner xsep=0pt,
+      outer sep=0pt
+      ] 
+      at (frame.north west)
+      {\ In :};
+  }
+  listing options={
+    basicstyle=\footnotesize\ttfamily,
+    language=python,
+    escapechar=¢,
+    showstringspaces=false,
+    },
+}
+
+\newtcblisting{ipyout}{
+  enlarge left by=\inwd,
+  width=\linewidth-\inwd,
+  enhanced,
+  boxrule=0.pt,
+  colback=gray!5!white,
+  colbacktitle=black!80!white,
+  listing only,
+  breakable,
+  top=0pt,
+  bottom=0pt,
+  overlay={
+    \node[
+      anchor=north east,
+      text width=\inwd,
+      font=\footnotesize\ttfamily\color{red!50!black},
+      inner ysep=2mm,
+      inner xsep=0pt,
+      outer sep=0pt
+      ] 
+      at (frame.north west)
+      {Out :};
+  }
+  listing options={
+    basicstyle=\footnotesize\ttfamily,
+    language=python,
+    escapechar=¢,
+    showstringspaces=false,
+    },
+}
+% ------------
+
+%% 表組み
+\usepackage{float}
+\usepackage{multirow}
+
+%% ディスプレイ数式時の改ページ
+% 複数行にわたる数式の途中で改ページを許可するコマンド。
+% 0～4で指定。
+% 0は改ページしない、4は必ず改ページする。
+% 改ページしたくない行は\\*とする。
+\allowdisplaybreaks[3]
+
+%% レイアウト
+\usepackage[top=20truemm,bottom=15truemm,left=15truemm,right=15truemm]{geometry}
+
+\makeatletter
+\newcommand{\subsubsubsection}{\@startsection{paragraph}{4}{\z@}%
+  {1.0\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+  {.1\Cvs \@plus.3\Cdp}%
+  {\reset@font\sffamily\normalsize}
+}
+\makeatother
+%\setcounter{secnumdepth}{4}
+
+\numberwithin{equation}{section}
+\newtheorem{Thm}{定理}[section]
+\newtheorem{Lemma}[Thm]{補題}
+\newtheorem{Def}[Thm]{定義}
+\newtheorem{Prop}[Thm]{命題}
+\newtheorem{Fact}[Thm]{事実}
+\newtheorem{Cor}[Thm]{系}
+\newtheorem{Conj}[Thm]{予想}
+\newtheorem{Ex}[Thm]{例}
+\newtheorem{Axiom}[Thm]{公理}
+\newtheorem{Notation}[Thm]{記法}
+\newtheorem{Symbol}[Thm]{記号}
+\newtheorem{Prob}[Thm]{問題}
+\newtheorem{Word}[Thm]{用語}
+\newtheorem{Claim}[Thm]{注意}
+\newtheorem{Mon}{問題}[section]
+
+\newtheorem{teiri}[Thm]{定理}
+\newtheorem{hodai}[Thm]{補題}
+\newtheorem{teigi}[Thm]{定義}
+\newtheorem{meidai}[Thm]{命題}
+\newtheorem{zizitsu}[Thm]{事実}
+\newtheorem{kei}[Thm]{系}
+\newtheorem{yosou}[Thm]{予想}
+\newtheorem{rei}[Thm]{例}
+\newtheorem{kori}[Thm]{公理}
+\newtheorem{kihou}[Thm]{記法}
+\newtheorem{kigou}[Thm]{記号}
+\newtheorem{mondai}[Thm]{問題}
+\newtheorem{yougo}[Thm]{用語}
+
+\newcommand{\proof}{\noindent{\bf [\hspace{0.3mm}証明\hspace{0.3mm}]\quad }}
+\newcommand{\nproof}[1]{\noindent{\bf [\hspace{0.3mm}{#1}の証明\hspace{0.3mm}]\quad }}
+\newcommand{\remark}{\noindent{\bf 注意}\quad }
+\newcommand{\ans}{\noindent{\bf [\hspace{0.3mm}解答\hspace{0.3mm}]\quad }}
+\newcommand{\answer}{\noindent{\bf [\hspace{0.3mm}解答\hspace{0.3mm}]\quad }}
+\newcommand{\nans}[1]{\noindent{\bf [\hspace{0.3mm}{#1}の解答\hspace{0.3mm}]\quad }}
+\newcommand{\nanswer}[1]{\noindent{\bf [\hspace{0.3mm}{#1}の解答\hspace{0.3mm}]\quad }}
+% 証明終了の四角
+\newcommand{\qed}{\hfill $\Box$ \vspace{0.8\baselineskip}}
+
+%% 文書の階層定義
+% \renewcommand{\thepart}{Roman{part}}
+% \def\presubsubsectionname{(}
+% \def\postsubsubsectionname{)}
+\setcounter{secnumdepth}{3}
+
+% \renewcommand{\thesubsection}{Kanji{subsection}}[section]
+
+% enumerate 環境での番号の形式の変更
+%\renewcommand{\labelenumi}{(\arabic{enumi})}
+%\renewcommand{\labelenumii}{(\arabic{enumi})}
+%\renewcommand{\labelenumiii}{(\arabic{enumi})}
+%\renewcommand{\labelenumiiii}{(\arabic{enumi})}
+
+% 高機能番号付き箇条書き
+\usepackage{enumerate}
+
+
+\newcommand{\ds}{\displaystyle}
+
+%% 新しい箇条書きの定義
+% enumlist : 定義や命題の列挙で使う
+% i), ii), ...
+\newenvironment{enumlist}{
+  \begin{enumerate}
+  \renewcommand{\labelenumi}{\roman{enumi})}
+  \renewcommand{\labelenumii}{\roman{enumii})}
+  \renewcommand{\labelenumiii}{\roman{enumiii})}
+  \renewcommand{\labelenumiv}{\roman{enumiv})}
+}{
+  \end{enumerate}
+}
+% proplist : 同値な命題の列挙で使う
+% (I), (II), ...
+\newenvironment{proplist}{
+  \begin{enumerate}
+  \renewcommand{\labelenumi}{(\Roman{enumi})}
+  \renewcommand{\labelenumii}{(\Roman{enumii})}
+  \renewcommand{\labelenumiii}{(\Roman{enumiii})}
+  \renewcommand{\labelenumiv}{(\Roman{enumiv})}
+}{
+  \end{enumerate}
+}
+% eqlist : 満たすべき条件の列挙で使う
+% (1), (2), ...
+\newenvironment{eqlist}{
+  \begin{enumerate}
+  \renewcommand{\labelenumi}{(\arabic{enumi})}
+  \renewcommand{\labelenumii}{(\arabic{enumii})}
+  \renewcommand{\labelenumiii}{(\arabic{enumiii})}
+  \renewcommand{\labelenumiv}{(\arabic{enumiv})}
+}{
+  \end{enumerate}
+}
+% steplist : 満たすべき条件の列挙で使う
+% step1:, step2:, ...
+\newenvironment{steplist}{
+  \begin{enumerate}
+  \renewcommand{\labelenumi}{step\arabic{enumi}:\ \ }
+  \renewcommand{\labelenumii}{step\arabic{enumii}:\ \ }
+  \renewcommand{\labelenumiii}{step\arabic{enumiii}:\ \ }
+  \renewcommand{\labelenumiv}{step\arabic{enumiv}:\ \ }
+}{
+  \end{enumerate}
+}
+
+%% よく使う集合
+\newcommand{\Int}{\operatorname{Int}}
+\newcommand{\map}{\operatorname{Map}}
+\newcommand{\Image}{\operatorname{Image}}
+\newcommand{\ord}{\operatorname{Ord}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\rank}{\operatorname{rank}}
+
+%% ギリシア数字
+\newcommand{\gi}{I}
+\newcommand{\gii}{I\hspace{-.1em}I}
+\newcommand{\giii}{I\hspace{-.1em}I\hspace{-.1em}I}
+\newcommand{\giv}{I\hspace{-.1em}V}
+\newcommand{\gv}{V}
+\newcommand{\gvi}{\hspace{-.1em}I}
+\newcommand{\gvii}{V\hspace{-.1em}I\hspace{-.1em}I}
+\newcommand{\gviii}{V\hspace{-.1em}I\hspace{-.1em}I\hspace{-.1em}I}
+\newcommand{\gix}{I\hspace{-.1em}X}
+\newcommand{\gx}{X}
+
+%% 代数体
+%bbXY(X:代数体の一般的な略字 Y:全体→なし, 正値全体→p(Positive), 負値全体→n(Negative))
+\newcommand{\bbn}{\mathbb{N}}
+\newcommand{\bbz}{\mathbb{Z}}
+\newcommand{\bbq}{\mathbb{Q}}
+\newcommand{\bbr}{\mathbb{R}}
+\newcommand{\bbi}{\mathbb{R}$/$\mathbb{Q}}
+\newcommand{\bbc}{\mathbb{C}}
+\newcommand{\bbk}{\mathbb{K}}
+\newcommand{\bbnp}{\mathbb{N}_{+}}
+\newcommand{\bbzp}{\mathbb{Z}_{+}}
+\newcommand{\bbqp}{\mathbb{Q}_{+}}
+\newcommand{\bbrp}{\mathbb{R}_{+}}
+\newcommand{\bbip}{\mathbb{R}_{+}$/$\mathbb{Q}_{+}}
+\newcommand{\bbnn}{\mathbb{N}_{-}}
+\newcommand{\bbzn}{\mathbb{Z}_{-}}
+\newcommand{\bbqn}{\mathbb{Q}_{-}}
+\newcommand{\bbrn}{\mathbb{R}_{-}}
+\newcommand{\bbin}{\mathbb{R}_{-}$/$\mathbb{Q}_{-}}
+
+%% よく使う文字列
+\newcommand{\AtoZ}{ABCDEFGHIJKLMNOPQRSTUVWXYZ}
+\newcommand{\atoz}{abcdefghijklmnopqrstuvwxyz}
+\newcommand{\suuji}{0123456789}
+
+% 微分
+% (全)微分
+\newcommand{\diff}[2]{\frac{d {#1}}{d {#2}}}
+\newcommand{\difff}[2]{\frac{d^{2} {#1}}{d {#2}^{2}}}
+% 偏微分
+\newcommand{\pdiff}[2]{\frac{\partial {#1}}{\partial {#2}}}
+\newcommand{\pdifff}[2]{\frac{\partial^{2} {#1}}{\partial {#2}^{2}}}
+\newcommand{\pdiffff}[3]{\frac{\partial^{2} {#1}}{\partial {#2} \partial {#3}}}
+
+% 組み合わせ（Combination)
+\newcommand{\comb}[2]{{}_{#1} \mathrm{C}_{#2}}
+% 重複組み合わせ
+\newcommand{\Comb}[2]{{}_{#1} \mathrm{H}_{#2}}
+% 順列 (Permutation)
+\newcommand{\perm}[2]{{}_{#1} \mathrm{P}_{#2}}
+% 重複順列
+\newcommand{\Perm}[2]{{}_{#1} \Pi_{#2}}
+% esssup/essinf
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\essinf}{ess\,inf}
+% argmin/argmax
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+
+% 内積の定義
+\newcommand{\inner}[1]{\langle {#1} \rangle}
+\newcommand{\Inner}[1]{\left\langle {#1} \right\rangle}
+
+
+%% ローカルの設定の読み込み
+\input{local_settings/localstyle.tex}
